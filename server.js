@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import cors from 'cors';
 import colors from 'colors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
@@ -15,6 +16,7 @@ const app = express();
 
 app.use(express.json());
 app.use(compression());
+app.use(cors());
 app.use(helmet());
 
 dotenv.config();
@@ -22,6 +24,14 @@ dotenv.config();
 connectDB();
 
 app.get('/', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Max-Age', '1800');
+  res.setHeader('Access-Control-Allow-Headers', 'content-type');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'PUT, POST, GET, DELETE, PATCH, OPTIONS'
+  );
   res.send('API is running');
 });
 
